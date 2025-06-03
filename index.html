@@ -1,0 +1,247 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Animal Care Journal</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        primary: '#4F6D7A',
+                        secondary: '#E8DAB2',
+                        accent: '#C0D6DF',
+                        dark: '#166088',
+                        light: '#EAEAEA',
+                    }
+                }
+            }
+        }
+    </script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        html {
+            scroll-behavior: smooth;
+        }
+        .fade-in {
+            animation: fadeIn 1s ease-in-out;
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+        .section {
+            min-height: 100vh;
+            padding-top: 4rem;
+        }
+        .quiz-option:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+        }
+        .quiz-option.selected {
+            background-color: #166088;
+            color: white;
+        }
+        .quiz-option.correct {
+            background-color: #4CAF50;
+            color: white;
+        }
+        .quiz-option.incorrect {
+            background-color: #F44336;
+            color: white;
+        }
+        nav {
+            background-color: #4F6D7A;
+        }
+        footer {
+            background-color: #4F6D7A;
+        }
+    </style>
+</head>
+<body class="bg-light font-sans">
+    <!-- Navigation Bar -->
+    <nav class="fixed w-full shadow-md z-50">
+        <div class="max-w-6xl mx-auto px-4">
+            <div class="flex justify-between items-center h-16">
+                <div class="flex-shrink-0 flex items-center">
+                    <i class="fas fa-paw text-secondary text-2xl mr-2"></i>
+                    <span class="text-xl font-bold text-white">Animal Care</span>
+                </div>
+                <div class="hidden md:block">
+                    <div class="ml-10 flex items-center space-x-4">
+                        <a href="#synopsis" class="text-white hover:text-secondary px-3 py-2 rounded-md text-sm font-medium transition duration-300">Synopsis</a>
+                        <a href="#quiz" class="text-white hover:text-secondary px-3 py-2 rounded-md text-sm font-medium transition duration-300">Quiz</a>
+                        <a href="#credits" class="text-white hover:text-secondary px-3 py-2 rounded-md text-sm font-medium transition duration-300">Credits</a>
+                    </div>
+                </div>
+                <div class="md:hidden flex items-center">
+                    <button id="mobile-menu-button" class="text-white hover:text-secondary focus:outline-none">
+                        <i class="fas fa-bars text-xl"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+        <!-- Mobile menu -->
+        <div id="mobile-menu" class="md:hidden hidden" style="background-color: #4F6D7A;">
+            <div class="px-2 pt-2 pb-3 space-y-1 sm:px-3">
+                <a href="#synopsis" class="text-white hover:text-secondary block px-3 py-2 rounded-md text-base font-medium">Synopsis</a>
+                <a href="#quiz" class="text-white hover:text-secondary block px-3 py-2 rounded-md text-base font-medium">Quiz</a>
+                <a href="#credits" class="text-white hover:text-secondary block px-3 py-2 rounded-md text-base font-medium">Credits</a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <main>
+        <!-- Synopsis Section -->
+        <section id="synopsis" class="fade-in bg-white pt-24 pb-12 px-4 sm:px-6 lg:px-8">
+            <div class="max-w-4xl mx-auto">
+                <p class="text-primary leading-relaxed mb-4">
+                    <strong><em>-Sinopsis: </em></strong>Este reportaje transmedia explora el proceso complejo de bienestar animal en la ciudad de Santa Clara, desde el rescate y cuidado de los animales en refugios hasta la adopción responsable. A través de testimonios, infografías y audiovisuales descubrirás cómo operan los voluntarios y las leyes de protección animal en el país, incluyendo los avances y desafíos del marco legal cubano.
+                </p>
+                <p class="text-primary leading-relaxed mb-4">
+                    El proyecto no solo informa, sino que actúa: te guiará por diferentes opciones de adopción. Tú eliges la que te resulte más conveniente y atractiva. Además, encontrarás un quiz interactivo con el que podrás ponerte a prueba y saber cuán apto estás para adoptar una mascota.
+                </p>
+                <p class="text-primary leading-relaxed">
+                    De esta forma sus realizadores buscan movilizar a la comunidad, fomentar la adopción y protección de los animales, así como visibilizar el trabajo de quienes ya lo hacen. ¡Súmate al cambio y descubre cómo tú también puedes dejar una huella positiva!
+                </p>
+            </div>
+        </section>
+        
+
+        <!-- Story -->
+        <section class="fade-in bg-white pb-12 px-4 sm:px-6 lg:px-8">
+            <div class="max-w-4xl mx-auto">
+                <h2 class="text-3xl font-bold text-center text-dark mb-12">Una Historia Real</h2>
+                
+                <!-- Story Part 1 -->
+                <div class="mb-16">
+                    <img src="assets/image0.jpg" alt="Rescued dog" class="w-full h-auto rounded-lg shadow-lg mb-6">
+                    <p class="text-primary leading-relaxed mb-4">
+                        <em><strong>La China</strong></em>, así le dicen todos en la cuadra y no porque tenga los ojos rasgados, sino porque a los perros sin pelo se les llama así: chinos. Solía rondar a dos cuadras de la casa. Nunca imaginé que la maltrataban.
+                    </p>
+                    <p class="text-primary leading-relaxed mb-4">
+                        La vi llorar una tarde. Lloraba como lloran los perros, sin lágrimas, pero con un sonido que atraviesa. Le llevé agua, un poco de arroz y picadillo; comió sin levantar la cabeza. Después recogí los cacharros y la acompañé a su casa poco
+                        antes de entrar al callejón del mexicano. Todos sabían dónde vivía la China. Toqué la puerta. El hombre que salió ni preguntó, solo la vio y le dio una patada que la tiró hasta la otra esquina de la sala. 
+                    </p>
+                    <p class="text-primary leading-relaxed">
+                        En el callejón del mexicano se organizan peleas de perros, poco después lo supe: ella había sido perra de peleas, pero ya no servía para eso, mucho menos para dar crías. 
+                    </p>
+                    <br>
+                    <p class="text-primary leading-relaxed">
+                        Esa misma tarde la encontré de nuevo, la recogí y me la llevé a casa. Mi papá no preguntó demasiado. La bañamos, le dimos de comer y se durmió con la cabeza pegada a la toalla.
+                        Mi papá fue a hablar con el dueño. Le dijo que no íbamos a devolverla por abusador. El tipo casi se le trepa encima. Al final dijo que no importaba que en dos días se iba a Estados Unidos.
+                        Mentira. Fue preso por robar balitas de gas en la avenida 7 de diciembre. 
+                    </p>
+                    <br>
+                    <p class="text-primary leading-relaxed">
+                        Pasamos tres meses curándole las heridas. Le pusimos inyecciones. La hablamos. Con el tiempo empezó a crecerle un poco de pelo sobre las cicatrices. 
+                    </p>
+                </div>
+                
+                <!-- Story Part 2 -->
+                <div class="mb-16">
+                    <img src="assets/image1.jpg" alt="Happy ending" class="w-full h-auto rounded-lg shadow-lg mb-6">
+                    <p class="text-primary leading-relaxed mb-4">
+                        Ha pasado un año. Ahora, cuando alguien entra a casa, la China no ladra ni se esconde; se queda quieta. Al principio lloraba si algún desconocido se le acercaba, pues tenía miedo del ruido y
+                        de lo extraño. Supongo que eso es el trauma. Ahora ha engordado una barbaridad. Ya casi no se notan sus cicatrices y yo digo que es feliz. 
+                    </p>
+                    <p class="text-right text-sm italic text-gray-600">— Leidy Mariam</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Adoption Prompt Section -->
+        <section class="fade-in bg-accent py-12 px-4 sm:px-6 lg:px-8">
+            <div class="max-w-3xl mx-auto text-center">
+                <h2 class="text-2xl font-semibold text-dark mb-6">
+                    Ahora que conoces la historia de China, ¿te animas a adoptar y proteger a un amigo animal?
+                </h2>
+                <div class="flex justify-center space-x-8">
+                    <button class="bg-dark hover:bg-primary text-white font-bold py-2 px-6 rounded-full transition duration-300">
+                        Sí
+                    </button>
+                    <button class="bg-secondary hover:bg-accent text-dark font-bold py-2 px-6 rounded-full transition duration-300">
+                        No
+                    </button>
+                </div>
+            </div>
+        </section>
+
+        <!-- Quiz Section -->
+        <section id="quiz" class="section fade-in bg-white pt-24 pb-12 px-4 sm:px-6 lg:px-8">
+            <div class="max-w-4xl mx-auto">
+                <h2 class="text-3xl font-bold text-center text-dark mb-12">¡Averigua cuánto sabes sobre el cuidado de las mascotas en el siguiente quiz! </h2>
+                
+                <div id="quiz-container">
+                    <!-- Quiz questions will be inserted here by JavaScript -->
+                </div>
+                
+                <div class="mt-8 text-center">
+                    <button id="submit-quiz" class="bg-dark hover:bg-primary text-white font-bold py-3 px-6 rounded-lg shadow-md transition duration-300">
+                        Submit
+                    </button>
+                    <div id="quiz-results" class="mt-6 text-lg font-semibold hidden"></div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- Credits Footer -->
+    <!-- <footer id="credits" class="py-12 px-4 sm:px-6 lg:px-8">
+        <div class="max-w-6xl mx-auto">
+            <h2 class="text-2xl font-bold mb-8 text-center text-white">Credits</h2>
+            
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                <div class="text-center">
+                    <h3 class="text-xl font-semibold mb-4 text-secondary">Content</h3>
+                    <p class="text-white">Written by: Animal Care Journal Team</p>
+                    <p class="text-white">Research: Dr. Emily Carter</p>
+                    <p class="text-white">Editing: Sarah Wilson</p>
+                </div>
+                
+                <div class="text-center">
+                    <h3 class="text-xl font-semibold mb-4 text-secondary">Photography</h3>
+                    <p class="text-white">Unsplash Contributors</p>
+                    <p class="text-white">Paws for Hope Archives</p>
+                    <p class="text-white">Wilson Family Collection</p>
+                </div>
+                
+                <div class="text-center">
+                    <h3 class="text-xl font-semibold mb-4 text-secondary">Special Thanks</h3>
+                    <p class="text-white">Paws for Hope Organization</p>
+                    <p class="text-white">Seattle Animal Shelter</p>
+                    <p class="text-white">All the volunteers</p>
+                </div>
+            </div>
+            
+            <div class="mt-12 pt-8 border-t border-secondary text-center">
+                <p class="text-secondary">&copy; 2023 Animal Care Journal. All rights reserved.</p>
+                <div class="flex justify-center space-x-6 mt-4">
+                    <a href="#" class="text-secondary hover:text-white">
+                        <i class="fab fa-facebook-f"></i>
+                    </a>
+                    <a href="#" class="text-secondary hover:text-white">
+                        <i class="fab fa-twitter"></i>
+                    </a>
+                    <a href="#" class="text-secondary hover:text-white">
+                        <i class="fab fa-instagram"></i>
+                    </a>
+                    <a href="#" class="text-secondary hover:text-white">
+                        <i class="fab fa-linkedin-in"></i>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </footer> -->
+
+    <footer id="credits" class="text-white text-center py-4">
+        <p>&copy; 2025 Animal Care Project | All rights reserved</p>
+    </footer>
+
+
+    <script src="script.js"></script>
+</body>
+</html>
