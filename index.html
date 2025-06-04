@@ -3,244 +3,290 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Animal Care Journal</title>
+    <title>Paws & Care - Animal Welfare Journal</title>
     <script src="https://cdn.tailwindcss.com"></script>
-    <script>
-        tailwind.config = {
-            theme: {
-                extend: {
-                    colors: {
-                        primary: '#4F6D7A',
-                        secondary: '#E8DAB2',
-                        accent: '#C0D6DF',
-                        dark: '#166088',
-                        light: '#EAEAEA',
-                    }
-                }
-            }
-        }
-    </script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/globe.gl@2.24.0/dist/globe.gl.min.js"></script>
     <style>
-        html {
-            scroll-behavior: smooth;
+        .globe-container {
+            width: 100%;
+            height: 500px;
+            position: relative;
         }
-        .fade-in {
-            animation: fadeIn 1s ease-in-out;
+        
+        .country-selector {
+            position: absolute;
+            bottom: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            z-index: 10;
         }
-        @keyframes fadeIn {
-            from { opacity: 0; }
-            to { opacity: 1; }
+        
+        .politics-info {
+            min-height: 300px;
+            transition: all 0.3s ease;
         }
-        .section {
-            min-height: 100vh;
-            padding-top: 4rem;
+        
+        .team-member:hover {
+            transform: translateY(-10px);
+            transition: all 0.3s ease;
         }
+        
         .quiz-option:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+            background-color: #f0f9ff;
         }
-        .quiz-option.selected {
-            background-color: #166088;
-            color: white;
-        }
+        
         .quiz-option.correct {
-            background-color: #4CAF50;
-            color: white;
+            background-color: #d1fae5;
+            border-color: #10b981;
         }
+        
         .quiz-option.incorrect {
-            background-color: #F44336;
-            color: white;
+            background-color: #fee2e2;
+            border-color: #ef4444;
         }
-        nav {
-            background-color: #4F6D7A;
-        }
-        footer {
-            background-color: #4F6D7A;
+        
+        @media (max-width: 768px) {
+            .globe-container {
+                height: 350px;
+            }
+            
+            .story-section {
+                flex-direction: column;
+            }
         }
     </style>
 </head>
-<body class="bg-light font-sans">
+<body class="bg-blue-50 font-sans">
     <!-- Navigation Bar -->
-    <nav class="fixed w-full shadow-md z-50">
-        <div class="max-w-6xl mx-auto px-4">
-            <div class="flex justify-between items-center h-16">
-                <div class="flex-shrink-0 flex items-center">
-                    <i class="fas fa-paw text-secondary text-2xl mr-2"></i>
-                    <span class="text-xl font-bold text-white">Animal Care</span>
+    <nav class="bg-blue-700 text-white shadow-lg sticky top-0 z-50">
+        <div class="container mx-auto px-4 py-3">
+            <div class="flex justify-between items-center">
+                <div class="flex items-center space-x-2">
+                    <i class="fas fa-paw text-2xl"></i>
+                    <span class="text-xl font-bold">Paws & Care</span>
                 </div>
-                <div class="hidden md:block">
-                    <div class="ml-10 flex items-center space-x-4">
-                        <a href="#synopsis" class="text-white hover:text-secondary px-3 py-2 rounded-md text-sm font-medium transition duration-300">Synopsis</a>
-                        <a href="#quiz" class="text-white hover:text-secondary px-3 py-2 rounded-md text-sm font-medium transition duration-300">Quiz</a>
-                        <a href="#credits" class="text-white hover:text-secondary px-3 py-2 rounded-md text-sm font-medium transition duration-300">Credits</a>
-                    </div>
+                <div class="hidden md:flex space-x-8">
+                    <a href="#synopsis" class="hover:text-blue-200 transition">Synopsis</a>
+                    <a href="#politics" class="hover:text-blue-200 transition">Global Politics</a>
+                    <a href="#quiz" class="hover:text-blue-200 transition">Quiz</a>
+                    <a href="#credits" class="hover:text-blue-200 transition">Credits</a>
                 </div>
-                <div class="md:hidden flex items-center">
-                    <button id="mobile-menu-button" class="text-white hover:text-secondary focus:outline-none">
-                        <i class="fas fa-bars text-xl"></i>
-                    </button>
-                </div>
+                <button id="mobile-menu-button" class="md:hidden text-white focus:outline-none">
+                    <i class="fas fa-bars text-2xl"></i>
+                </button>
             </div>
-        </div>
-        <!-- Mobile menu -->
-        <div id="mobile-menu" class="md:hidden hidden" style="background-color: #4F6D7A;">
-            <div class="px-2 pt-2 pb-3 space-y-1 sm:px-3">
-                <a href="#synopsis" class="text-white hover:text-secondary block px-3 py-2 rounded-md text-base font-medium">Synopsis</a>
-                <a href="#quiz" class="text-white hover:text-secondary block px-3 py-2 rounded-md text-base font-medium">Quiz</a>
-                <a href="#credits" class="text-white hover:text-secondary block px-3 py-2 rounded-md text-base font-medium">Credits</a>
+            <!-- Mobile Menu -->
+            <div id="mobile-menu" class="hidden md:hidden mt-4 pb-2">
+                <a href="#synopsis" class="block py-2 hover:bg-blue-600 px-2 rounded">Synopsis</a>
+                <a href="#politics" class="block py-2 hover:bg-blue-600 px-2 rounded">Global Politics</a>
+                <a href="#quiz" class="block py-2 hover:bg-blue-600 px-2 rounded">Quiz</a>
+                <a href="#credits" class="block py-2 hover:bg-blue-600 px-2 rounded">Credits</a>
             </div>
         </div>
     </nav>
 
-    <!-- Main Content -->
-    <main>
-        <!-- Synopsis Section -->
-        <section id="synopsis" class="fade-in bg-white pt-24 pb-12 px-4 sm:px-6 lg:px-8">
-            <div class="max-w-4xl mx-auto">
-                <p class="text-primary leading-relaxed mb-4">
-                    <strong><em>-Sinopsis: </em></strong>Este reportaje transmedia explora el proceso complejo de bienestar animal en la ciudad de Santa Clara, desde el rescate y cuidado de los animales en refugios hasta la adopción responsable. A través de testimonios, infografías y audiovisuales descubrirás cómo operan los voluntarios y las leyes de protección animal en el país, incluyendo los avances y desafíos del marco legal cubano.
-                </p>
-                <p class="text-primary leading-relaxed mb-4">
-                    El proyecto no solo informa, sino que actúa: te guiará por diferentes opciones de adopción. Tú eliges la que te resulte más conveniente y atractiva. Además, encontrarás un quiz interactivo con el que podrás ponerte a prueba y saber cuán apto estás para adoptar una mascota.
-                </p>
-                <p class="text-primary leading-relaxed">
-                    De esta forma sus realizadores buscan movilizar a la comunidad, fomentar la adopción y protección de los animales, así como visibilizar el trabajo de quienes ya lo hacen. ¡Súmate al cambio y descubre cómo tú también puedes dejar una huella positiva!
-                </p>
-            </div>
-        </section>
-        
+    <!-- Hero Section -->
+    <header class="bg-gradient-to-r from-blue-600 to-blue-800 text-white py-20">
+        <div class="container mx-auto px-4 text-center">
+            <h1 class="text-4xl md:text-6xl font-bold mb-6">Animal Care Journal</h1>
+            <p class="text-xl md:text-2xl mb-8">Documenting stories, policies and raising awareness for animal welfare worldwide</p>
+            <a href="#synopsis" class="bg-white text-blue-700 px-8 py-3 rounded-full font-semibold hover:bg-gray-100 transition inline-block">Explore</a>
+        </div>
+    </header>
 
-        <!-- Story -->
-        <section class="fade-in bg-white pb-12 px-4 sm:px-6 lg:px-8">
-            <div class="max-w-4xl mx-auto">
-                <h2 class="text-3xl font-bold text-center text-dark mb-12">Una Historia Real</h2>
-                
-                <!-- Story Part 1 -->
-                <div class="mb-16">
-                    <img src="assets/image0.jpg" alt="Rescued dog" class="w-full h-auto rounded-lg shadow-lg mb-6">
-                    <p class="text-primary leading-relaxed mb-4">
-                        <em><strong>La China</strong></em>, así le dicen todos en la cuadra y no porque tenga los ojos rasgados, sino porque a los perros sin pelo se les llama así: chinos. Solía rondar a dos cuadras de la casa. Nunca imaginé que la maltrataban.
-                    </p>
-                    <p class="text-primary leading-relaxed mb-4">
-                        La vi llorar una tarde. Lloraba como lloran los perros, sin lágrimas, pero con un sonido que atraviesa. Le llevé agua, un poco de arroz y picadillo; comió sin levantar la cabeza. Después recogí los cacharros y la acompañé a su casa poco
-                        antes de entrar al callejón del mexicano. Todos sabían dónde vivía la China. Toqué la puerta. El hombre que salió ni preguntó, solo la vio y le dio una patada que la tiró hasta la otra esquina de la sala. 
-                    </p>
-                    <p class="text-primary leading-relaxed">
-                        En el callejón del mexicano se organizan peleas de perros, poco después lo supe: ella había sido perra de peleas, pero ya no servía para eso, mucho menos para dar crías. 
-                    </p>
-                    <br>
-                    <p class="text-primary leading-relaxed">
-                        Esa misma tarde la encontré de nuevo, la recogí y me la llevé a casa. Mi papá no preguntó demasiado. La bañamos, le dimos de comer y se durmió con la cabeza pegada a la toalla.
-                        Mi papá fue a hablar con el dueño. Le dijo que no íbamos a devolverla por abusador. El tipo casi se le trepa encima. Al final dijo que no importaba que en dos días se iba a Estados Unidos.
-                        Mentira. Fue preso por robar balitas de gas en la avenida 7 de diciembre. 
-                    </p>
-                    <br>
-                    <p class="text-primary leading-relaxed">
-                        Pasamos tres meses curándole las heridas. Le pusimos inyecciones. La hablamos. Con el tiempo empezó a crecerle un poco de pelo sobre las cicatrices. 
-                    </p>
-                </div>
-                
-                <!-- Story Part 2 -->
-                <div class="mb-16">
-                    <img src="assets/image1.jpg" alt="Happy ending" class="w-full h-auto rounded-lg shadow-lg mb-6">
-                    <p class="text-primary leading-relaxed mb-4">
-                        Ha pasado un año. Ahora, cuando alguien entra a casa, la China no ladra ni se esconde; se queda quieta. Al principio lloraba si algún desconocido se le acercaba, pues tenía miedo del ruido y
-                        de lo extraño. Supongo que eso es el trauma. Ahora ha engordado una barbaridad. Ya casi no se notan sus cicatrices y yo digo que es feliz. 
-                    </p>
-                    <p class="text-right text-sm italic text-gray-600">— Leidy Mariam</p>
-                </div>
+    <!-- Synopsis Section -->
+    <section id="synopsis" class="py-16 bg-white">
+        <div class="container mx-auto px-4">
+            <h2 class="text-3xl font-bold text-center mb-12 text-blue-700">Synopsis</h2>
+            <div class="max-w-4xl mx-auto bg-blue-50 p-8 rounded-lg shadow-md">
+                <p class="text-lg mb-4">Welcome to Paws & Care, a dedicated platform for animal welfare advocacy and education. Our mission is to shed light on the challenges animals face globally while celebrating the progress being made in animal care policies.</p>
+                <p class="text-lg mb-4">Through this journal, we document heartwarming rescue stories, analyze international animal welfare legislation, and provide educational resources to empower individuals to make a difference in their communities.</p>
+                <p class="text-lg">Join us in our journey to create a world where every animal is treated with compassion and respect. Explore our content, test your knowledge with our quiz, and learn how different nations approach animal welfare.</p>
             </div>
-        </section>
+        </div>
+    </section>
 
-        <!-- Adoption Prompt Section -->
-        <section class="fade-in bg-accent py-12 px-4 sm:px-6 lg:px-8">
-            <div class="max-w-3xl mx-auto text-center">
-                <h2 class="text-2xl font-semibold text-dark mb-6">
-                    Ahora que conoces la historia de China, ¿te animas a adoptar y proteger a un amigo animal?
-                </h2>
-                <div class="flex justify-center space-x-8">
-                    <button class="bg-dark hover:bg-primary text-white font-bold py-2 px-6 rounded-full transition duration-300">
-                        Sí
-                    </button>
-                    <button class="bg-secondary hover:bg-accent text-dark font-bold py-2 px-6 rounded-full transition duration-300">
-                        No
-                    </button>
-                </div>
-            </div>
-        </section>
-
-        <!-- Quiz Section -->
-        <section id="quiz" class="section fade-in bg-white pt-24 pb-12 px-4 sm:px-6 lg:px-8">
-            <div class="max-w-4xl mx-auto">
-                <h2 class="text-3xl font-bold text-center text-dark mb-12">¡Averigua cuánto sabes sobre el cuidado de las mascotas en el siguiente quiz! </h2>
-                
-                <div id="quiz-container">
-                    <!-- Quiz questions will be inserted here by JavaScript -->
-                </div>
-                
-                <div class="mt-8 text-center">
-                    <button id="submit-quiz" class="bg-dark hover:bg-primary text-white font-bold py-3 px-6 rounded-lg shadow-md transition duration-300">
-                        Submit
-                    </button>
-                    <div id="quiz-results" class="mt-6 text-lg font-semibold hidden"></div>
-                </div>
-            </div>
-        </section>
-    </main>
-
-    <!-- Credits Footer -->
-    <!-- <footer id="credits" class="py-12 px-4 sm:px-6 lg:px-8">
-        <div class="max-w-6xl mx-auto">
-            <h2 class="text-2xl font-bold mb-8 text-center text-white">Credits</h2>
+    <!-- Dog Story Section -->
+    <section class="py-16 bg-blue-50">
+        <div class="container mx-auto px-4">
+            <h2 class="text-3xl font-bold text-center mb-12 text-blue-700">Rescue Story: Luna's Journey</h2>
             
-            <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
-                <div class="text-center">
-                    <h3 class="text-xl font-semibold mb-4 text-secondary">Content</h3>
-                    <p class="text-white">Written by: Animal Care Journal Team</p>
-                    <p class="text-white">Research: Dr. Emily Carter</p>
-                    <p class="text-white">Editing: Sarah Wilson</p>
+            <div class="story-section flex items-center mb-12 bg-white rounded-lg overflow-hidden shadow-md">
+                <div class="w-full md:w-1/2">
+                    <img src="https://images.unsplash.com/photo-1544568100-847a948585b9?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1074&q=80" 
+                         alt="Abandoned dog in shelter" 
+                         class="w-full h-full object-cover">
                 </div>
-                
-                <div class="text-center">
-                    <h3 class="text-xl font-semibold mb-4 text-secondary">Photography</h3>
-                    <p class="text-white">Unsplash Contributors</p>
-                    <p class="text-white">Paws for Hope Archives</p>
-                    <p class="text-white">Wilson Family Collection</p>
-                </div>
-                
-                <div class="text-center">
-                    <h3 class="text-xl font-semibold mb-4 text-secondary">Special Thanks</h3>
-                    <p class="text-white">Paws for Hope Organization</p>
-                    <p class="text-white">Seattle Animal Shelter</p>
-                    <p class="text-white">All the volunteers</p>
+                <div class="w-full md:w-1/2 p-8">
+                    <h3 class="text-2xl font-semibold mb-4 text-blue-700">Found in the Cold</h3>
+                    <p class="text-gray-700 mb-4">Luna, a 2-year-old mixed breed, was discovered shivering in an abandoned building during a harsh winter storm. A local resident heard her faint whimpers and called animal control.</p>
+                    <p class="text-gray-700">When rescuers arrived, Luna was malnourished and suffering from frostbite on her paws. She was immediately taken to a veterinary hospital where she received emergency care.</p>
                 </div>
             </div>
             
-            <div class="mt-12 pt-8 border-t border-secondary text-center">
-                <p class="text-secondary">&copy; 2023 Animal Care Journal. All rights reserved.</p>
-                <div class="flex justify-center space-x-6 mt-4">
-                    <a href="#" class="text-secondary hover:text-white">
-                        <i class="fab fa-facebook-f"></i>
-                    </a>
-                    <a href="#" class="text-secondary hover:text-white">
-                        <i class="fab fa-twitter"></i>
-                    </a>
-                    <a href="#" class="text-secondary hover:text-white">
-                        <i class="fab fa-instagram"></i>
-                    </a>
-                    <a href="#" class="text-secondary hover:text-white">
-                        <i class="fab fa-linkedin-in"></i>
-                    </a>
+            <div class="story-section flex flex-col md:flex-row-reverse items-center bg-white rounded-lg overflow-hidden shadow-md">
+                <div class="w-full md:w-1/2">
+                    <img src="https://images.unsplash.com/photo-1583511655826-05700442b31b?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1074&q=80" 
+                         alt="Dog recovering in shelter" 
+                         class="w-full h-full object-cover">
+                </div>
+                <div class="w-full md:w-1/2 p-8">
+                    <h3 class="text-2xl font-semibold mb-4 text-blue-700">Road to Recovery</h3>
+                    <p class="text-gray-700 mb-4">After two weeks of intensive care, Luna began to show signs of improvement. Shelter volunteers worked patiently to regain her trust, as she was initially fearful of human contact.</p>
+                    <p class="text-gray-700">Remarkably, within a month, Luna's personality began to shine. She formed a special bond with one of the veterinary technicians who spent extra time socializing her.</p>
                 </div>
             </div>
         </div>
-    </footer> -->
+    </section>
 
-    <footer id="credits" class="text-white text-center py-4">
-        <p>&copy; 2025 Animal Care Project | All rights reserved</p>
+    <!-- Global Politics Section -->
+    <section id="politics" class="py-16 bg-white">
+        <div class="container mx-auto px-4">
+            <h2 class="text-3xl font-bold text-center mb-12 text-blue-700">Global Animal Welfare Policies</h2>
+            
+            <div class="globe-container mb-12">
+                <div id="globeViz"></div>
+                <div class="country-selector">
+                    <select id="countrySelect" class="px-4 py-2 rounded-full bg-white shadow-md border border-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-500">
+                        <option value="">Select a country...</option>
+                        <option value="United States">United States</option>
+                        <option value="United Kingdom">United Kingdom</option>
+                        <option value="Germany">Germany</option>
+                        <option value="France">France</option>
+                        <option value="Canada">Canada</option>
+                        <option value="Australia">Australia</option>
+                        <option value="Japan">Japan</option>
+                        <option value="Brazil">Brazil</option>
+                        <option value="India">India</option>
+                        <option value="Cuba">Cuba</option>
+                        <option value="Sweden">Sweden</option>
+                        <option value="New Zealand">New Zealand</option>
+                    </select>
+                </div>
+            </div>
+            
+            <div id="politicsInfo" class="politics-info bg-blue-50 rounded-lg p-8 shadow-md">
+                <div class="text-center py-12">
+                    <i class="fas fa-globe-americas text-5xl text-blue-400 mb-4"></i>
+                    <h3 class="text-2xl font-semibold text-blue-700">Select a country to view its animal welfare policies</h3>
+                    <p class="text-gray-600 mt-2">Learn about legislation, enforcement, and cultural attitudes toward animal care</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Quiz Section -->
+    <section id="quiz" class="py-16 bg-blue-50">
+        <div class="container mx-auto px-4">
+            <h2 class="text-3xl font-bold text-center mb-12 text-blue-700">Animal Welfare Quiz</h2>
+            
+            <div class="max-w-3xl mx-auto bg-white rounded-lg shadow-md overflow-hidden">
+                <div class="bg-blue-700 text-white px-6 py-4">
+                    <div class="flex justify-between items-center">
+                        <h3 class="text-xl font-semibold">Test Your Knowledge</h3>
+                        <div id="quizScore" class="bg-white text-blue-700 px-3 py-1 rounded-full font-bold">
+                            Score: <span id="scoreValue">0</span>/10
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="p-6">
+                    <div id="quizContainer">
+                        <!-- Quiz questions will be inserted here by JavaScript -->
+                    </div>
+                    
+                    <div id="quizResults" class="hidden mt-6 p-4 border-t">
+                        <h4 class="text-xl font-semibold mb-4 text-center">Quiz Results</h4>
+                        <div class="text-center mb-4">
+                            <span id="finalScore" class="text-4xl font-bold text-blue-700">0</span>
+                            <span class="text-2xl">/10</span>
+                        </div>
+                        <p id="resultMessage" class="text-center text-lg"></p>
+                        <div class="text-center mt-6">
+                            <button id="retryQuiz" class="bg-blue-600 text-white px-6 py-2 rounded hover:bg-blue-700 transition">
+                                Try Again
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Credits Section -->
+    <section id="credits" class="py-16 bg-white">
+        <div class="container mx-auto px-4">
+            <h2 class="text-3xl font-bold text-center mb-12 text-blue-700">Our Team</h2>
+            
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-8">
+                <!-- Team Member 1 -->
+                <div class="team-member bg-white rounded-lg shadow-md overflow-hidden hover:shadow-lg transition duration-300">
+                    <img src="https://randomuser.me/api/portraits/women/44.jpg" alt="Team member" class="w-full h-48 object-cover">
+                    <div class="p-4 text-center">
+                        <h3 class="font-semibold text-lg">Sarah Johnson</h3>
+                    </div>
+                </div>
+                
+                <!-- Team Member 2 -->
+                <div class="team-member bg-white rounded-lg shadow-md overflow-hidden hover:shadow-lg transition duration-300">
+                    <img src="https://randomuser.me/api/portraits/men/32.jpg" alt="Team member" class="w-full h-48 object-cover">
+                    <div class="p-4 text-center">
+                        <h3 class="font-semibold text-lg">Michael Chen</h3>
+                    </div>
+                </div>
+                
+                <!-- Team Member 3 -->
+                <div class="team-member bg-white rounded-lg shadow-md overflow-hidden hover:shadow-lg transition duration-300">
+                    <img src="https://randomuser.me/api/portraits/women/68.jpg" alt="Team member" class="w-full h-48 object-cover">
+                    <div class="p-4 text-center">
+                        <h3 class="font-semibold text-lg">Emma Rodriguez</h3>
+                    </div>
+                </div>
+                
+                <!-- Team Member 4 -->
+                <div class="team-member bg-white rounded-lg shadow-md overflow-hidden hover:shadow-lg transition duration-300">
+                    <img src="https://randomuser.me/api/portraits/men/75.jpg" alt="Team member" class="w-full h-48 object-cover">
+                    <div class="p-4 text-center">
+                        <h3 class="font-semibold text-lg">David Kim</h3>
+                    </div>
+                </div>
+                
+                <!-- Team Member 5 -->
+                <div class="team-member bg-white rounded-lg shadow-md overflow-hidden hover:shadow-lg transition duration-300">
+                    <img src="https://randomuser.me/api/portraits/women/90.jpg" alt="Team member" class="w-full h-48 object-cover">
+                    <div class="p-4 text-center">
+                        <h3 class="font-semibold text-lg">Aisha Mohammed</h3>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="bg-blue-800 text-white py-8">
+        <div class="container mx-auto px-4">
+            <div class="flex flex-col md:flex-row justify-between items-center">
+                <div class="mb-4 md:mb-0">
+                    <div class="flex items-center space-x-2">
+                        <i class="fas fa-paw text-2xl"></i>
+                        <span class="text-xl font-bold">Paws & Care</span>
+                    </div>
+                    <p class="mt-2 text-blue-200">Documenting animal welfare stories since 2020</p>
+                </div>
+                <div class="flex space-x-6">
+                    <a href="#" class="hover:text-blue-300 transition"><i class="fab fa-facebook-f"></i></a>
+                    <a href="#" class="hover:text-blue-300 transition"><i class="fab fa-twitter"></i></a>
+                    <a href="#" class="hover:text-blue-300 transition"><i class="fab fa-instagram"></i></a>
+                    <a href="#" class="hover:text-blue-300 transition"><i class="fab fa-linkedin-in"></i></a>
+                </div>
+            </div>
+            <div class="border-t border-blue-700 mt-6 pt-6 text-center text-blue-200">
+                <p>&copy; 2023 Paws & Care Journal. All rights reserved.</p>
+            </div>
+        </div>
     </footer>
-
 
     <script src="script.js"></script>
 </body>
