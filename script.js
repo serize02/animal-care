@@ -62,8 +62,8 @@ const quizQuestions = [
         answer: 0
     },
     {
-        question: "6. Los patos tienen un campo de visión de:",
-        options: ["180ͦ", "340ͦ", "360ͦ"],
+        question: "6. ¿Cada cuánto tiempo debe cambiarse el agua de la pecera?",
+        options: ["1 semana", "2 semanas", "Cada mes"],
         answer: 1
     },
     {
