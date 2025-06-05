@@ -35,23 +35,36 @@
     </style>
 </head>
 <body class="font-sans bg-gray-50">
-    <!-- Navigation Bar -->
-    <nav class="bg-white shadow-lg sticky top-0 z-50">
-        <div class="max-w-6xl mx-auto px-4">
-            <div class="flex justify-between">
-                <div class="flex space-x-7">
-                    <div class="flex items-center py-4">
-                        <span class="text-xl font-semibold text-gray-800">🐾 Animal Care Journal </span>
-                    </div>
-                </div>
-                <div class="flex items-center space-x-1">
-                    <a href="#synopsis" class="py-4 px-2 text-gray-500 hover:text-blue-500 transition duration-300 nav-link">Sinopsis</a>
-                    <a href="#quiz" class="py-4 px-2 text-gray-500 hover:text-blue-500 transition duration-300 nav-link">Quiz</a>
-                    <a href="#credits" class="py-4 px-2 text-gray-500 hover:text-blue-500 transition duration-300 nav-link">Créditos</a>
-                </div>
-            </div>
+
+  <nav class="bg-white shadow-lg sticky top-0 z-50">
+    <div class="max-w-6xl mx-auto px-4">
+      <div class="flex justify-between items-center py-4">
+        <!-- Logo -->
+        <div class="text-xl font-semibold text-gray-800">🐾 Animal Care Journal</div>
+  
+        <!-- Hamburger button (hidden on large screens) -->
+        <div class="md:hidden">
+          <button id="menu-button" class="text-gray-700 focus:outline-none text-2xl">
+            ☰
+          </button>
         </div>
-    </nav>
+  
+        <!-- Menu links (hidden on small screens) -->
+        <div class="hidden md:flex space-x-4 items-center">
+          <a href="#synopsis" class="py-2 px-3 text-gray-500 hover:text-blue-500 transition nav-link">Sinopsis</a>
+          <a href="#quiz" class="py-2 px-3 text-gray-500 hover:text-blue-500 transition nav-link">Quiz</a>
+          <a href="#credits" class="py-2 px-3 text-gray-500 hover:text-blue-500 transition nav-link">Créditos</a>
+        </div>
+      </div>
+  
+      <!-- Mobile dropdown menu -->
+      <div id="mobile-menu" class="md:hidden hidden flex-col space-y-2 pb-4">
+        <a href="#synopsis" class="block text-gray-600 hover:text-blue-500 px-3 py-2">Sinopsis</a>
+        <a href="#quiz" class="block text-gray-600 hover:text-blue-500 px-3 py-2">Quiz</a>
+        <a href="#credits" class="block text-gray-600 hover:text-blue-500 px-3 py-2">Créditos</a>
+      </div>
+    </div>
+  </nav>
     
     <main>
 
@@ -265,12 +278,28 @@
                 Adriana Hernández Arregoitia, representante del BAC en Santa Clara, explica que la organzación realiza en cada territorio ferias de adopciones, campañas de esterilización y vacunación antirrábica y campañas de concientización en los espacios donde tienen lugar las activiades
                 anteriores o a través de sus redes sociales. Todas estas iniciativas dependen en gran medida de la efectividad de las campañas de recaudaciones de fondos y donaciones, por lo que la periodicidad y masividad no son las deseadas. 
               </p>
+              <img src="assets/33.jpeg" alt="gato" class="w-full object-cover rounded-lg shadow-md mb-4">
+              <p class="text-gray-600 text-sm italic text-center mb-6">
+                Carey (hembra) fue adoptada y desparasitada en la feria de adopciones de BAC Santa Clara en noviembre de 2023. Estuvo tres meses bajo el cuidado de los voluntarios de la organización luego de que uno de ellos la encontrara golpeada en la calle.
+              </p>
               <p class="text-gray-700 mb-4">
                 Si bien nuestro fin es concretar la adopción para los animales bajo nuestro cuidado, afirma, velamos por que la persona interesada en adoptar cumpla con los requisitos para, en efecto, brindar una adopción responsable. En nuestra planilla de adopción están recogidos los deberes
                 y derechos que cada adoptante tiene para con el animal. 
               </p>
-              <!-- FIX THIS -->
-              <!-- <img src="assets/planilla.jpg" alt="Planilla de adopción BAC" class="w-full object-cover rounded-lg shadow-md mb-6"> -->
+              <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4 place-items-center">
+                <div class="w-full h-100 flex justify-center">
+                  <img src="assets/34.jpeg" alt="María de las Mercedes Muñoz Sañudo"
+                       class="object-cover h-full w-full rounded-lg shadow-md max-w-full">
+                </div>
+                <div class="w-full h-100 flex justify-center">
+                  <img src="assets/35.jpeg" alt="Jeannette Ford Ryder"
+                       class="object-cover h-full w-full rounded-lg shadow-md max-w-full">
+                </div>
+              </div>
+              <p class="text-gray-600 text-sm italic text-center mb-6">Plantilla de adopción de Carey</p>
+              <p class="text-gray-700 mb-4">
+                Puesto que ya Cuba cuenta con su Ley de Bienestar Animal, ahora la labor de BAC en ese sentido se centra en velar por su estricto cumplimiento. La organización facilita información sobre las vías para realizar denuncias, así como acompañamiento durante el proceso en caso de ser solicitado y contribuye a visibilizar casos de maltrato, señala Adriana.
+              </p>
             </div>
           
             <div class="mb-12">

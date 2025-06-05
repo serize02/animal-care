@@ -88,6 +88,15 @@ const quizQuestions = [
     }
 ];
 
+document.addEventListener('DOMContentLoaded', function () {
+    const menuBtn = document.getElementById('menu-button');
+    const mobileMenu = document.getElementById('mobile-menu');
+
+    menuBtn.addEventListener('click', () => {
+      mobileMenu.classList.toggle('hidden');
+    });
+});
+
 function initCarousels() {
     const carousel1 = document.getElementById('carousel1');
     const carousel2 = document.getElementById('carousel2');
